@@ -1,6 +1,7 @@
 const express = require('express'); //importa o express
 const taskRoutes = require('./routes/tasks.routes');
 const app = express(); //cria a aplicação
+
 app.use(express.json());
 
 app.get('/', (req, res) => { //cria uma rota. get: alguem acessou  RAIZ DA API. req: request (oq o cliente envia). res(repsonse): oq eu devolvo

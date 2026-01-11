@@ -1,12 +1,8 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router(); //mini servidor de rotas. organiza elas
+const tasksController = require('../controllers/tasks.controller');
 
-router.get('/', (req, res) => { //get lista tarefas
-    return res.json({ message: 'Listar tarefas'});
-});
+router.get('/', tasksController.listTasks); //quando é get /tasks
+router.post('/', tasksController.createTask); //quando é post /tasks
 
-router.post('/', (req, res) => { //post cria
-    return res.json({ message: 'Criar tarefa' });
-});
-
-module.exports = router;
+module.exports = router; //exporta pra ser usado no server

@@ -1,20 +1,19 @@
 const taskService = require('../services/tasks.service');
 
-function listTasks(req, res) {
-    const tasks = taskService.getAllTasks(); //nao sabe como tarefas sao guardadas, entao pede todas
-    res.json(tasks); //converte em json e responde
+async function listTasks(req, res) {
+    const tasks = await taskService.getAllTasks();
+    res.json(tasks);
 }
 
-function createTask(req, res) { //funcao chamada no post tasks
-   
+async function createTask(req, res) {
     const { title } = req.body;
 
     if (!title) {
         return res.status(400).json({ error: 'Título não é obrigatório'});
     }
-    
-    const newTask = taskService.createTask(title); //crie uma task com esse titulo
-    res.status(201).json(newTask); //NAO cria a task aqui. json da nova task
+
+    const newTask = await taskService.createTask(title);
+    res.status(201).json(newTask);
 }
 
 module.exports = { //exporta as funçoes pro router

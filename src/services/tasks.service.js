@@ -1,20 +1,28 @@
-let tasks = [];
-let nextId = 1; //simula um banco 
+const db = require('../config/firebase');
 
-function getAllTasks() {
-    return tasks; //retorna todas as tarefas
+async function getAllTasks() {
+    const snapshot = await db.collection('tasks').get();
+    
+    const tasks = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
+
+    return tasks;
 }
 
-function createTask(title) {
-  
-    const task = {
-        id: nextId++, //id automatico
-        title, //vem do controller
+async function createTask(title) {
+    
+    const docRef = await db.collection('tasks').add({
+        title,
+        done: false
+    });
+
+    return {
+        id: docRef.id,
+        title,
         done: false
     };
-
-    tasks.push(task); //salva no banco
-    return task; //devolve pro contoller
 }
 
 module.exports = {

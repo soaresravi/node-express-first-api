@@ -17,9 +17,28 @@ async function createTask(req, res) {
     res.status(201).json(newTask); //recurso criado
 }
 
+async function updateTask(req, res) {
+    
+    const { id } = req.params; //id da url
+    const data = req.body; //dados p atualizar
+    
+    const updatedTask = await taskService.updateTask(id, data);
+    res.json(updatedTask);
+}
+
+async function deleteTask(req, res) {
+    
+    const { id } = req.params;
+
+    await taskService.deleteTask(id);
+    res.status(204).send(); //sucesso sem conteudp
+}
+
 module.exports = { //exporta as funçoes pro router
     listTasks,
-    createTask
+    createTask,
+    updateTask,
+    deleteTask
 };
 
 // req.body vem do express. nao guarda dados. fazendo validaçao

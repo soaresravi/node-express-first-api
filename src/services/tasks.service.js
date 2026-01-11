@@ -26,7 +26,26 @@ async function createTask(title) { //cria uma nova tarefa (aq q faz ir pro fires
     }; //devolve a task ja no formato da api
 }
 
+async function updateTask(id, data) { //atualiza uma tarefa
+    
+    const taskRef = db.collection('tasks').doc(id); //referencia documento pelo id
+    await taskRef.update(data); //atualiza pelos ccampos enviados
+    const updatedTask = await taskRef.get(); //busca tarefa atualizada
+
+    return {
+        id: updatedTask.id,
+        ...updatedTask.data()
+    };
+}
+
+async function deleteTask(id) { //deleta
+    const taskRef = db.collection('tasks').doc(id);
+    await taskRef.delete();
+}
+
 module.exports = {
     getAllTasks,
-    createTask
+    createTask,
+    updateTask,
+    deleteTask
 };

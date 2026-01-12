@@ -1,4 +1,5 @@
 const express = require('express'); //importa o express
+const authRoutes = require('./routes/auth.routes');
 const taskRoutes = require('./routes/tasks.routes');
 const errorMiddleware = require('./middlewares/error.middleware');
 
@@ -10,6 +11,7 @@ app.get('/', (req, res) => { //cria uma rota. get: alguem acessou  RAIZ DA API. 
     res.send('Api rodando!! Olá mundo'); //envia uma resposta
 });
 
+app.use('/auth', authRoutes);
 app.use('/tasks', taskRoutes); //rotas da aplicaçao
 app.use(errorMiddleware); //sempre por ultimo
 

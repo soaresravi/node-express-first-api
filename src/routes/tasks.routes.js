@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router(); //mini servidor de rotas. organiza elas
 const controller = require('../controllers/tasks.controller');
+const authMiddleware = require('../middlewares/auth.middleware');
+
+router.use(authMiddleware);
 
 router.get('/', controller.listTasks); //quando é get /tasks
 router.post('/', controller.createTask); //quando é post /tasks

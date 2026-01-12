@@ -1,37 +1,63 @@
 const taskService = require('../services/tasks.service');
 
-async function listTasks(req, res) {
-    const tasks = await taskService.getAllTasks(); //espera o firestore responder
-    res.json(tasks); //devolve json
+async function listTasks(req, res, next) {
+
+    try {
+      
+        const tasks = await taskService.getAllTasks(); //espera o firestore responder
+        return res.json(tasks); //devolve json
+  
+    } catch (error) {
+        next(error);
+    }
 }
 
-async function createTask(req, res) {
-   
-    const { title } = req.body; //pega o titulo enviado
+async function createTask(req, res, next) {
 
-    if (!title) {
-        return res.status(400).json({ error: 'Título não é obrigatório'}); //validaçao basica
-    } 
+    try {
 
-    const newTask = await taskService.createTask(title); //cria no firestore
-    res.status(201).json(newTask); //recurso criado
+        const { title } = req.body; //pega o titulo enviado
+
+        if (!title) {
+            return res.status(400).json({ error: 'Título não é obrigatório'}); //validaçao basica
+        } 
+
+        const task = await taskService.createTask(title); //cria no firestore
+        res.status(201).json(task); //recurso criado
+
+    } catch (error) {
+        next(error);
+    }
 }
 
-async function updateTask(req, res) {
-    
-    const { id } = req.params; //id da url
-    const data = req.body; //dados p atualizar
-    
-    const updatedTask = await taskService.updateTask(id, data);
-    res.json(updatedTask);
+async function updateTask(req, res, next) {
+
+    try {
+
+        const { id } = req.params; //id da url
+        const { done } = req.body; //dados p atualizar
+
+        await taskService.updateTask(id, done);
+        return res.status(204).send();
+
+    } catch (error) {
+        next(error);
+    }
 }
 
-async function deleteTask(req, res) {
-    
-    const { id } = req.params;
+async function deleteTask(req, res, next) {
 
-    await taskService.deleteTask(id);
-    res.status(204).send(); //sucesso sem conteudp
+    try {
+
+        const { id } = req.params;
+
+        await taskService.deleteTask(id);
+        return res.status(204).send(); //sucesso sem conteudp
+  
+    } catch (error) {
+        next(error);
+    }
+    
 }
 
 module.exports = { //exporta as funçoes pro router

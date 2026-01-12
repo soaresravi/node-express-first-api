@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router(); //mini servidor de rotas. organiza elas
-const tasksController = require('../controllers/tasks.controller');
+const controller = require('../controllers/tasks.controller');
 
-router.get('/', tasksController.listTasks); //quando é get /tasks
-router.post('/', tasksController.createTask); //quando é post /tasks
-router.put('/:id', tasksController.updateTask); //atualiza: put
-router.delete('/:id', tasksController.deleteTask);
+router.get('/', controller.listTasks); //quando é get /tasks
+router.post('/', controller.createTask); //quando é post /tasks
+router.put('/:id', controller.updateTask); //atualiza: put
+router.delete('/:id', controller.deleteTask);
 
 module.exports = router; //exporta pra ser usado no server
